@@ -15,9 +15,7 @@
 
 package com.gu.logback.appender.kinesis;
 
-import java.nio.ByteBuffer;
-import java.util.concurrent.ThreadPoolExecutor;
-
+import ch.qos.logback.core.spi.DeferredProcessingAware;
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.services.kinesisfirehose.AmazonKinesisFirehoseAsyncClient;
@@ -29,7 +27,8 @@ import com.amazonaws.services.kinesisfirehose.model.Record;
 import com.amazonaws.services.kinesisfirehose.model.ResourceNotFoundException;
 import com.gu.logback.appender.kinesis.helpers.FirehoseStatsReporter;
 
-import ch.qos.logback.core.spi.DeferredProcessingAware;
+import java.nio.ByteBuffer;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * LOGBack Appender implementation to support sending data from java

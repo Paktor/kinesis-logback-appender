@@ -30,4 +30,7 @@ public class AppenderConstants {
   public static final int DEFAULT_THREAD_KEEP_ALIVE_SEC = 30;
   public static final String DEFAULT_REGION = Regions.US_EAST_1.getName();
   public static final String DEFAULT_SERVICE_NAME = "kinesis";
+  public static final int FIREHOSE_MAX_BATCH_SIZE = 500;
+  public static final int DEFAULT_FIREHOSE_BATCH_SIZE = 50;
+  public static final long DEFAULT_SENDER_DELAY_MILLIS = 5000;
 }

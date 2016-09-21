@@ -4,11 +4,9 @@
  */
 package com.gu.logback.appender.kinesis;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
+import ch.qos.logback.core.AppenderBase;
+import ch.qos.logback.core.LayoutBase;
+import ch.qos.logback.core.spi.DeferredProcessingAware;
 import com.amazonaws.AmazonWebServiceClient;
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentialsProvider;
@@ -21,9 +19,10 @@ import com.gu.logback.appender.kinesis.helpers.BlockFastProducerPolicy;
 import com.gu.logback.appender.kinesis.helpers.CustomCredentialsProviderChain;
 import com.gu.logback.appender.kinesis.helpers.Validator;
 
-import ch.qos.logback.core.AppenderBase;
-import ch.qos.logback.core.LayoutBase;
-import ch.qos.logback.core.spi.DeferredProcessingAware;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Base class for Kinesis and Kinesis Firehose appenders containing common
@@ -39,17 +38,20 @@ public abstract class BaseKinesisAppender<Event extends DeferredProcessingAware,
   private int bufferSize = AppenderConstants.DEFAULT_BUFFER_SIZE;
   private int threadCount = AppenderConstants.DEFAULT_THREAD_COUNT;
   private int shutdownTimeout = AppenderConstants.DEFAULT_SHUTDOWN_TIMEOUT_SEC;
+  private int batchSize = AppenderConstants.DEFAULT_FIREHOSE_BATCH_SIZE;
+  private long delayInMillis = AppenderConstants.DEFAULT_SENDER_DELAY_MILLIS;
 
   private String endpoint;
   private String region;
   private String streamName;
-  private String roleToAssumeArn;
 
+  private String roleToAssumeArn;
   private boolean initializationFailed = false;
   private BlockingQueue<Runnable> taskBuffer;
   private ThreadPoolExecutor threadPoolExecutor;
   private LayoutBase<Event> layout;
   private AWSCredentialsProvider credentials = new CustomCredentialsProviderChain();
+
   private Client client;
 
   /**
@@ -74,6 +76,18 @@ public abstract class BaseKinesisAppender<Event extends DeferredProcessingAware,
     if(streamName == null) {
       initializationFailed = true;
       addError("Invalid configuration - streamName cannot be null for appender: " + name);
+      return;
+    }
+
+    if (batchSize <= 0 || batchSize > AppenderConstants.FIREHOSE_MAX_BATCH_SIZE) {
+      initializationFailed = true;
+      addError("Invalid configuration - batchSize cannot be <= 0 or > " + AppenderConstants.FIREHOSE_MAX_BATCH_SIZE + " for appender: " + name);
+      return;
+    }
+
+    if (delayInMillis <= 0) {
+      initializationFailed = true;
+      addError("Invalid configuration - delayInMillis cannot be <=0 for appender: " + name);
       return;
     }
 
@@ -429,5 +443,21 @@ public abstract class BaseKinesisAppender<Event extends DeferredProcessingAware,
 
   protected Client getClient() {
     return client;
+  }
+
+  public int getBatchSize() {
+    return batchSize;
+  }
+
+  public void setBatchSize(int batchSize) {
+    this.batchSize = batchSize;
+  }
+
+  public long getDelayInMillis() {
+    return delayInMillis;
+  }
+
+  public void setDelayInMillis(long delayInMillis) {
+    this.delayInMillis = delayInMillis;
   }
 }
