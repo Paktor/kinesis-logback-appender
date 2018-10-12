@@ -10,13 +10,13 @@ import ch.qos.logback.core.spi.DeferredProcessingAware;
 import com.amazonaws.AmazonWebServiceClient;
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.auth.STSAssumeRoleSessionCredentialsProvider;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.retry.PredefinedRetryPolicies;
 import com.amazonaws.retry.RetryPolicy;
 import com.gu.logback.appender.kinesis.helpers.BlockFastProducerPolicy;
-import com.gu.logback.appender.kinesis.helpers.CustomCredentialsProviderChain;
 import com.gu.logback.appender.kinesis.helpers.Validator;
 
 import java.util.concurrent.BlockingQueue;
@@ -50,7 +50,7 @@ public abstract class BaseKinesisAppender<Event extends DeferredProcessingAware,
   private BlockingQueue<Runnable> taskBuffer;
   private ThreadPoolExecutor threadPoolExecutor;
   private LayoutBase<Event> layout;
-  private AWSCredentialsProvider credentials = new CustomCredentialsProviderChain();
+  private AWSCredentialsProvider credentials = new DefaultAWSCredentialsProviderChain();
 
   private Client client;
 

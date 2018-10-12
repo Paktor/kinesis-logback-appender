@@ -18,9 +18,9 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ru.angrytit</groupId>
+  <groupId>com.gopaktor</groupId>
   <artifactId>kinesis-logback-appender</artifactId>
-  <version>1.4.0.andrewdmay.3</version>
+  <version>1.6</version>
 
   <name>LOGBack Appender for pushing logs to Kinesis</name>
   <description>This is an implementation of the AWS - Labs log4j appender for LOGBack.</description>
@@ -52,14 +52,6 @@
       <organizationUrl>http://www.theguardian.com</organizationUrl>
     </developer>
   </developers>
-
-  <distributionManagement>
-    <repository>
-      <id>bintray-angrytit-angrytit</id>
-      <name>angryTit-angrytit</name>
-      <url>https://api.bintray.com/maven/angrytit/angrytit/kinesis-logback-appender/;publish=1</url>
-    </repository>
-  </distributionManagement>
 
   <build>
     <plugins>
@@ -132,8 +124,8 @@
     <!-- JAVA -->
     <java.version>1.8</java.version>
     <java.source.encoding>${general.encoding}</java.source.encoding>
-    <aws-java-sdk.version>1.11.22</aws-java-sdk.version>
-    <logback.version>1.1.5</logback.version>
+    <aws-java-sdk.version>1.11.272</aws-java-sdk.version>
+    <logback.version>1.1.11</logback.version>
     <guava.version>19.0</guava.version>
     <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
   </properties>
