@@ -18,7 +18,7 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.gopaktor</groupId>
+  <groupId>com.github.Paktor</groupId>
   <artifactId>kinesis-logback-appender</artifactId>
   <version>1.6</version>
 
