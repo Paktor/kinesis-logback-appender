@@ -20,7 +20,7 @@
 
   <groupId>com.github.Paktor</groupId>
   <artifactId>kinesis-logback-appender</artifactId>
-  <version>1.6</version>
+  <version>1.6.1</version>
 
   <name>LOGBack Appender for pushing logs to Kinesis</name>
   <description>This is an implementation of the AWS - Labs log4j appender for LOGBack.</description>
